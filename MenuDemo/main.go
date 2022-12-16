@@ -1,33 +1,34 @@
 package main
 
 import (
+	"MenuDemo/menu"
 	"bufio"
 	"fmt"
 	"os"
 	"strings"
 )
 
+var in = bufio.NewReader(os.Stdin)
+
 func main() {
-	fmt.Println("Please select an option")
-	fmt.Println("1) Print menu")
-	in := bufio.NewReader(os.Stdin)
-	choice, _ := in.ReadString('\n')
-	choice = strings.TrimSpace(choice)
 
-	type menuItem struct {
-		name   string
-		prices map[string]float64
-	}
-	menu := []menuItem{
-		{name: "Coffee", prices: map[string]float64{"small": 1.65, "medium": 1.80, "large": 1.95}},
-		{name: "Espresso", prices: map[string]float64{"single": 1.90, "double": 2.25, "triple": 2.55}},
-	}
+loop:
+	for {
+		fmt.Println("Please select an option")
+		fmt.Println("1) Print menu")
+		fmt.Println("2) Add item")
+		fmt.Println("q) Quit")
+		choice, _ := in.ReadString('\n')
 
-	for _, item := range menu {
-		fmt.Println(item.name)
-		fmt.Println(strings.Repeat("-", 10))
-		for size, price := range item.prices {
-			fmt.Printf("\t%10s%10.2f\n", size, price)
+		switch strings.TrimSpace(choice) {
+		case "1":
+			menu.Print()
+		case "2":
+			menu.AddItem()
+		case "q":
+			break loop
+		default:
+			fmt.Println("Unknown option")
 		}
 	}
 }
